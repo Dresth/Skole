@@ -29,13 +29,17 @@ class Spil {
         boolean game = true;
         int targetpoints = 40; 
 
-       boolean doubleroll = true; 
+       
         
 
         while (game) {
             for (Player CurrentPlayer : new Player[]{player1, player2}) {
+                boolean doubleroll = true;
+                while (doubleroll) {
+                
             System.out.println(CurrentPlayer.name + "'s turn. press enter to roll the dice");
             scanner.nextLine();
+
 
 
 
@@ -44,6 +48,7 @@ class Spil {
             if (rolls[0] == 1 && rolls[1] == 1) {
                 CurrentPlayer.points = 0;
                 System.out.println(CurrentPlayer.name + " rolled: " + rolls[0] + " and " + rolls[1] + ". Your points have been reset. Your points: " + CurrentPlayer.points);
+                doubleroll = true; 
 
             } else {
             int roundPoints = rolls[0] + rolls[1];
@@ -58,7 +63,10 @@ class Spil {
             if (CurrentPlayer.points >= targetpoints && rolls[0] == rolls[1]) {
                 System.out.println(CurrentPlayer.name + " wins with " + CurrentPlayer.points + " points!");
                 game = false; 
-                break; 
+                break;
+            }
+            if (rolls[0] != rolls[1]) {
+                doubleroll = false; 
             }
             }
 
@@ -67,7 +75,7 @@ class Spil {
         } 
     }
 }
-
+}
 
 
 
