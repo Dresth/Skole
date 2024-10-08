@@ -18,7 +18,7 @@ class Spil {
         String name2 = scan.nextLine();
         Player player2 = new Player(name2);
 
-
+eee
 
 
         // Spillets hovedloop
