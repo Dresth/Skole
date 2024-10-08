@@ -28,11 +28,13 @@ class Spil {
         //kode for at spillerne skifter tur
         boolean game = true;
         int targetpoints = 40; 
+
+       boolean doubleroll = true; 
         
 
         while (game) {
-            for (Player Current : new Player[]{player1, player2}) {
-            System.out.println(Current.name + "'s turn. press enter to roll the dice");
+            for (Player CurrentPlayer : new Player[]{player1, player2}) {
+            System.out.println(CurrentPlayer.name + "'s turn. press enter to roll the dice");
             scanner.nextLine();
 
 
@@ -40,17 +42,21 @@ class Spil {
              //her lægges spillerens nuværende point sammen med de point han får i den specifikke runde spilleren er nået til.
             int[] rolls = Terninger.roll();
             if (rolls[0] == 1 && rolls[1] == 1) {
-                Current.points = 0;
+                CurrentPlayer.points = 0;
+                System.out.println(CurrentPlayer.name + " rolled: " + rolls[0] + " and " + rolls[1] + ". Your points have been reset. Your points: " + CurrentPlayer.points);
 
             } else {
             int roundPoints = rolls[0] + rolls[1];
-            Current.points += roundPoints;
-            System.out.println(Current.name + " rolled: " + rolls[0] + " and " + rolls[1] + ". Total points: " + Current.points);
-            }
+            CurrentPlayer.points += roundPoints;
+            System.out.println(CurrentPlayer.name + " rolled: " + rolls[0] + " and " + rolls[1] + ". Total points: " + CurrentPlayer.points);
+            } 
+                
+
+            
 
 
-            if (Current.points >= targetpoints && rolls[0] == rolls[1]) {
-                System.out.println(Current.name + " wins with " + Current.points + " points!");
+            if (CurrentPlayer.points >= targetpoints && rolls[0] == rolls[1]) {
+                System.out.println(CurrentPlayer.name + " wins with " + CurrentPlayer.points + " points!");
                 game = false; 
                 break; 
             }
