@@ -28,16 +28,16 @@ class Spil {
         //kode for at spillerne skifter tur
         boolean game = true;
         int targetpoints = 40; 
-
-       
+        boolean prevroll = false;
         
-
+        // while loop er hele spillet fra start til slut
         while (game) {
+            
             for (Player CurrentPlayer : new Player[]{player1, player2}) {
                 boolean doubleroll = true;
                 while (doubleroll) {
                 
-            System.out.println(CurrentPlayer.name + "'s turn. press enter to roll the dice");
+            System.out.println(CurrentPlayer.name + "'s turn. Press enter to roll the dice");
             scanner.nextLine();
 
 
@@ -48,33 +48,61 @@ class Spil {
             if (rolls[0] == 1 && rolls[1] == 1) {
                 CurrentPlayer.points = 0;
                 System.out.println(CurrentPlayer.name + " rolled: " + rolls[0] + " and " + rolls[1] + ". Your points have been reset. Your points: " + CurrentPlayer.points);
-                doubleroll = true; 
+                doubleroll = false; 
 
             } else {
             int roundPoints = rolls[0] + rolls[1];
             CurrentPlayer.points += roundPoints;
             System.out.println(CurrentPlayer.name + " rolled: " + rolls[0] + " and " + rolls[1] + ". Total points: " + CurrentPlayer.points);
             } 
+           
+
+            
+            //Her vises kode for at vinde med to 6'ere
+            if (rolls[0] == 6 && rolls[1] == 6){
                 
+             if (prevroll) {
+                System.out.println("YOU WIN!!!");
+                game = false; 
+                doubleroll = false; 
+                break; 
+              
+            }  else {
+                prevroll = true; 
+
+            } 
+            } else {
+                prevroll = false; 
+            }  
 
             
 
-
+                //Her er vores logik for at hvis en af spillerens point når over 40, og de har slået to ens, vinder spilleren. 
             if (CurrentPlayer.points >= targetpoints && rolls[0] == rolls[1]) {
                 System.out.println(CurrentPlayer.name + " wins with " + CurrentPlayer.points + " points!");
                 game = false; 
-                break;
-            }
-            if (rolls[0] != rolls[1]) {
                 doubleroll = false; 
+                break; 
+            } 
+
+
+            //Her har vi skrevet kode for når en spiller roller to ens
+            if (rolls[0] == rolls[1]) {
+                System.out.println("You rolled the same number twice! Roll again.");
+                doubleroll = true; // Continue rolling
+            } else {
+                doubleroll = false; // End the turn if they don't roll the same number
             }
-            }
 
+            //Hvis game = false slutter hele spillet. 
+            if (!game) {
+                break;
 
-
-        } 
+                    }
+                }
+            } 
+        }
     }
-}
 }
 
 
