@@ -1,7 +1,7 @@
 import java.util.Random;
 import java.util.Scanner;
 
-class 28_del1 {
+class 28del1 {
     public static void main(String[] args) {
         var scanner = new Scanner(System.in);
         scanner.useLocale(java.util.Locale.ENGLISH);
