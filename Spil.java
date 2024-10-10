@@ -6,33 +6,31 @@ class Spil {
         var scanner = new Scanner(System.in);
         scanner.useLocale(java.util.Locale.ENGLISH);
         
-        //læser fra konsol spillerens navn
+        //Læser fra konsol spillerens navn
         Player player1 = new Player();
         System.out.print("Enter your name ");
         player1.name = scanner.nextLine();
 
 
-        //læser fra konsol spillerenes navn
+        //Læser fra konsol spillerenes navn
         Player player2 = new Player();
         System.out.print("Enter your name ");
         player2.name = scanner.nextLine();
 
-
-
         System.out.println("Hello " + player1 + " and " + player2 + ". Enjoy your game!");
 
 
-    
-
-
-        //kode for at spillerne skifter tur
+        
         boolean game = true;
         int targetpoints = 40; 
         boolean prevroll = false;
+
         
+
         // while loop er hele spillet fra start til slut
         while (game) {
             
+            //Ny variable går igennem array og bruges til at holde styr på tur og point
             for (Player CurrentPlayer : new Player[]{player1, player2}) {
                 boolean doubleroll = true;
                 while (doubleroll) {
@@ -42,13 +40,13 @@ class Spil {
 
 
 
-
              //her lægges spillerens nuværende point sammen med de point han får i den specifikke runde spilleren er nået til.
             int[] rolls = Terninger.roll();
             if (rolls[0] == 1 && rolls[1] == 1) {
                 CurrentPlayer.points = 0;
                 System.out.println(CurrentPlayer.name + " rolled: " + rolls[0] + " and " + rolls[1] + ". Your points have been reset. Your points: " + CurrentPlayer.points);
                 doubleroll = false; 
+
 
             } else {
             int roundPoints = rolls[0] + rolls[1];
@@ -61,7 +59,7 @@ class Spil {
             //Her vises kode for at vinde med to 6'ere
             if (rolls[0] == 6 && rolls[1] == 6){
                 
-             if (prevroll) {
+            if (prevroll) {
                 System.out.println("YOU WIN!!!");
                 game = false; 
                 doubleroll = false; 
@@ -86,6 +84,7 @@ class Spil {
             } 
 
 
+
             //Her har vi skrevet kode for når en spiller roller to ens
             if (rolls[0] == rolls[1]) {
                 System.out.println("You rolled the same number twice! Roll again.");
@@ -94,18 +93,26 @@ class Spil {
                 doubleroll = false; // End the turn if they don't roll the same number
             }
 
-            //Hvis game = false slutter hele spillet. 
+
+
+            //Her afsluttes spiller for double double 6 win condition
             if (!game) {
                 break;
-
-                    }
+                }
+            }
+            //Her afsluttes spillet for den normale win condition
+                if (!game) {
+                    break;
                 }
             } 
+            //Her asluttes spillet 
+            if (!game) {
+                break; 
+            }
         }
+
     }
 }
-
-
 
 
 
@@ -122,8 +129,6 @@ class Player {
     }
 
    
-
-
 
 class Terninger {
     private static Random random = new Random();
