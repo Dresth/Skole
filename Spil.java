@@ -17,23 +17,22 @@ class spil {
         System.out.print("Enter your name ");
         player2.name = scanner.nextLine();
 
-        System.out.println("Hello " + player1 + " and " + player2 + ". Enjoy your game!");
+        System.out.println("Hello " + player1 + " and " + player2);
 
-
-        
+        System.out.println("Each player starts with 1000$ Dollars");
+        System.out.println("To win the game, one player needs to optain 3000$ ");
+        System.out.println("Enjoy your game!");
         boolean game = true;
-        int targetpoints = 40; 
-        boolean prevroll = false;
-
+        int targetpoints = 3000; 
+        int test = 1000;
+        // while loop er hele spillet fra start til slut
         
 
-        // while loop er hele spillet fra start til slut
         while (game) {
             
             //Ny variable går igennem array og bruges til at holde styr på tur og point
             for (Player CurrentPlayer : new Player[]{player1, player2}) {
-                boolean doubleroll = true;
-                while (doubleroll) {
+                
                 
             System.out.println(CurrentPlayer.name + "'s turn. Press enter to roll the dice");
             scanner.nextLine();
@@ -42,64 +41,69 @@ class spil {
 
              //her lægges spillerens nuværende point sammen med de point han får i den specifikke runde spilleren er nået til.
             int[] rolls = Terninger.roll();
-            if (rolls[0] == 1 && rolls[1] == 1) {
-                CurrentPlayer.points = 0;
-                System.out.println(CurrentPlayer.name + " rolled: " + rolls[0] + " and " + rolls[1] + ". Your points have been reset. Your points: " + CurrentPlayer.points);
-                doubleroll = false; 
+            int sum = rolls[0] + rolls[1];
+            int change = 0;
 
-
-            } else {
-            int roundPoints = rolls[0] + rolls[1];
-            CurrentPlayer.points += roundPoints;
-            System.out.println(CurrentPlayer.name + " rolled: " + rolls[0] + " and " + rolls[1] + ". Total points: " + CurrentPlayer.points);
-            } 
-           
-
-            
-            //Her vises kode for at vinde med to 6'ere
-            if (rolls[0] == 6 && rolls[1] == 6){
+            if (sum == 2) {
+                System.out.println("You rolled a 2 and landed on [Tower] which grants you 250$ Dollars");
+                change = 250;
                 
-            if (prevroll) {
-                System.out.println("YOU WIN!!!");
-                game = false; 
-                doubleroll = false; 
-                break; 
-              
-            }  else {
-                prevroll = true; 
-
             } 
-            } else {
-                prevroll = false; 
-            }  
+            if (sum == 3) {
+                System.out.println("You rolled a 3 and landed on [Crater] which means you have to pay 100$ Dollars");
+                change = -100; 
+
+            }if (sum == 4) {
+                System.out.println("You rolled a 4 and landed on [Palace gates] which grants you 100$ Dollars");
+                change = 100;
+
+            }if (sum == 5) {
+                System.out.println("You rolled a 5 and landed on [Cold Desert] which means you have to pay 20$ Dollars");
+                change = -20;
+
+            }if (sum == 6) {
+                System.out.println("You rolled a 6 and landed on [Walled city] which grants you 180$ Dollars");
+                change = 180;
+
+            }if (sum == 7) {
+                System.out.println("You rolled a 7 and landed on [Monestary] which means you gain nothing");
+                change = 0;
+
+            }if (sum == 8) {
+                System.out.println("You rolled a 8 and landed on [Black cave] which means you have to pay 70$ Dollars");
+                change = -70;
+
+            }if (sum == 9) {
+                System.out.println("You rolled a 9 and landed on [Huts in the mountain] which grants you 60$ Dollars");
+                change = 60;
+
+            }if (sum == 10) {
+                System.out.println("You rolled a 10 and landed on [The Werewall] which means you have to pay 80$ Dollars, but you get to roll again!");
+                change = -80;
+
+            }if (sum == 11) {
+                System.out.println("You rolled a 11 and landed on [The pit] which means you have to pay 50$ Dollars");
+                change = -50;
+
+            }if (sum == 12) {
+                System.out.println("You rolled a 12 and landed on [Goldmine] which grants you 650$ Dollars");
+                change = 650;
+            }
+            CurrentPlayer.updatePoints(change);
+            System.out.println(CurrentPlayer.name +" currently has " + CurrentPlayer.points + "$ Dollars");
+            int remainingPoints = targetpoints - CurrentPlayer.points;
+            System.out.println(CurrentPlayer.name + " needs "  +remainingPoints + "$ Dollars to win the game");
+
 
             
+
 
                 //Her er vores logik for at hvis en af spillerens point når over 40, og de har slået to ens, vinder spilleren. 
-            if (CurrentPlayer.points >= targetpoints && rolls[0] == rolls[1]) {
+            if (CurrentPlayer.points >= targetpoints ) {
                 System.out.println(CurrentPlayer.name + " wins with " + CurrentPlayer.points + " points!");
                 game = false; 
-                doubleroll = false; 
                 break; 
             } 
-
-
-
-            //Her har vi skrevet kode for når en spiller roller to ens
-            if (rolls[0] == rolls[1]) {
-                System.out.println("You rolled the same number twice! Roll again.");
-                doubleroll = true; // Continue rolling
-            } else {
-                doubleroll = false; // End the turn if they don't roll the same number
-            }
-
-
-
-            //Her afsluttes spiller for double double 6 win condition
-            if (!game) {
-                break;
-                }
-            }
             //Her afsluttes spillet for den normale win condition
                 if (!game) {
                     break;
@@ -116,15 +120,25 @@ class spil {
 
 
 
+
 class Player {
     String name;
-    int points;
+    int points=1000;
+
         // dette gør sådan at den rent faktisk printer hvad vi skriver i consollen.
         public String toString() {
             return name;
         }
-        int resetPoint() {
-            return 0;
+        public void updatePoints(int change) {
+            points+= change;
+            if (points< 0) {
+                points = 0; //for at sikre sig den mindste værdi er 0
+                
+            }
+            if (points >3000) {
+                points = 3000;
+                
+            }
         }
     }
 
