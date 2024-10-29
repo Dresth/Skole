@@ -1,0 +1,181 @@
+import java.util.Random;
+import java.util.Scanner;
+
+class spil {
+    public static void main(String[] args) {
+        var scanner = new Scanner(System.in);
+        scanner.useLocale(java.util.Locale.ENGLISH);
+        
+        //Læser fra konsol spillerens navn
+        Player player1 = new Player();
+        System.out.print("Enter your name ");
+        player1.name = scanner.nextLine();
+
+
+        //Læser fra konsol spillerenes navn
+        Player player2 = new Player();
+        System.out.print("Enter your name ");
+        player2.name = scanner.nextLine();
+
+        System.out.println("Hello " + player1 + " and " + player2 + ". Enjoy your game!");
+
+
+        
+        boolean game = true;
+        int targetpoints = 3000; 
+        int towerPoints = 250;
+        int craterPoints = -100;
+        int coldDesertPoints = -20;
+        int palaceGatesPoints = 100;
+        int walledCityPoints = 180;
+        int Monestary = 0;
+        int blackCavePoints = -70;
+        int mountainPoints = 60;
+        int werewallPoints = -80;
+        int pitPoints = -50;
+        int goldPoints = 650;
+
+
+        int currentPoints = turnPoints + currentPoints;
+        
+        int remainingPoints = targetPoints - currentPoints;
+
+        
+
+
+        
+
+        // while loop er hele spillet fra start til slut
+        while (game) {
+            
+            //Ny variable går igennem array og bruges til at holde styr på tur og point
+            for (Player CurrentPlayer : new Player[]{player1, player2}) {
+                boolean doubleroll = true;
+                while (doubleroll) {
+                
+            System.out.println(CurrentPlayer.name + "'s turn. Press enter to roll the dice");
+            scanner.nextLine();
+
+
+
+             //her lægges spillerens nuværende point sammen med de point han får i den specifikke runde spilleren er nået til.
+            int[] rolls = Terninger.roll();
+            if (rolls[0] +  rolls[1] == 2) {
+                System.out.println("You rolled a 2 and landed on Tower which grants you " + towerPoints + " points");
+                System.out.println("You currently have " + currentpoins + " points ");
+            } 
+            if (rolls[0] +  rolls[1] == 3) {
+                System.out.println("You rolled a 3 and landed on Crater which means you have to pay " + craterPoints + " points");
+                
+
+
+            }if (rolls[0] +  rolls[1] == 4) {
+                System.out.println("You rolled a 4 and landed on Palace gates which grants you " + palaceGatesPoints + " points");
+                
+
+
+            }if (rolls[0] +  rolls[1] == 5) {
+                System.out.println("You rolled a 5 and landed on Cold Desert which means you have to pay " + coldDesertPoints + " points");
+                 
+
+
+            }if (rolls[0] +  rolls[1] == 6) {
+                System.out.println("You rolled a 6 and landed on Walled city which grants you " + walledCityPoints + " points");
+                
+
+
+            }if (rolls[0] +  rolls[1] == 7) {
+                System.out.println("You rolled a 7 and landed on Monestary which means you gain nothing");
+                
+
+
+            }if (rolls[0] +  rolls[1] == 8) {
+                System.out.println("You rolled a 8 and landed on Black cave which means you have to pay" + blackCavePoints + " points");
+                
+
+
+            }if (rolls[0] +  rolls[1] == 9) {
+                System.out.println("You rolled a 9 and landed on Huts in the mountain which grants you " + mountainPoints + " points");
+                 
+
+
+            }if (rolls[0] +  rolls[1] == 10) {
+                System.out.println("You rolled a 10 and landed on The Werewall which means you have to pay " + werewallPoints + " points, but you get to roll again!");
+                
+
+
+            }if (rolls[0] +  rolls[1] == 11) {
+                System.out.println("You rolled a 11 and landed on The pit which means you have to pay " + pitPoints + " points");
+                
+
+            }if (rolls[0] +  rolls[1] == 12) {
+                System.out.println("You rolled a 12 and landed on Goldmine which grants you " + goldPoints + " points");
+                
+
+            }
+            
+
+
+            
+
+
+                //Her er vores logik for at hvis en af spillerens point når over 40, og de har slået to ens, vinder spilleren. 
+            if (CurrentPlayer.points >= targetpoints && rolls[0] == rolls[1]) {
+                System.out.println(CurrentPlayer.name + " wins with " + CurrentPlayer.points + " points!");
+                game = false; 
+                doubleroll = false; 
+                break; 
+            } 
+
+
+
+            //Her har vi skrevet kode for når en spiller roller to ens
+            if (rolls[0] + rolls[1] == 10) {
+                System.out.println("");
+                doubleroll = true; // Continue rolling
+            } else {
+                doubleroll = false; // End the turn if they don't roll the same number
+            }
+
+
+            //Her afsluttes spillet for den normale win condition
+                if (!game) {
+                    break;
+                }
+            } 
+            //Her asluttes spillet 
+            if (!game) {
+                break; 
+            }
+        }
+
+    }
+}
+}
+
+
+
+class Player {
+    String name;
+    int points=1000;
+
+        // dette gør sådan at den rent faktisk printer hvad vi skriver i consollen.
+        public String toString() {
+            return name;
+        }
+        int points() {
+            return points;
+        }
+    }
+
+   
+
+class Terninger {
+    private static Random random = new Random();
+
+    public static int[] roll() {
+        int roll1 = random.nextInt(6) + 1; // Slå terning 1
+        int roll2 = random.nextInt(6) + 1; // Slå terning 2
+        return new int[]{roll1, roll2};
+    }
+}
