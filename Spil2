@@ -19,24 +19,19 @@ class spil {
 
         System.out.println("Hello " + player1 + " and " + player2);
 
+
+        //her fortæller vi hvordan spillet starter og hvordan man vinder spillet
         System.out.println("Each player starts with 1000$ Dollars");
         System.out.println("To win the game, one player needs to optain 3000$ ");
         System.out.println("Enjoy your game!");
-        
+        boolean game = true;
         int targetpoints = 3000; 
-        int test = 10;    
-        int player1Wins = 0;
-        int player2Wins = 0;
-        for (int gameCount = 0;gameCount <test ; gameCount++){
-            boolean game = true;
 
-        player1.resetPoints();
-        player2.resetPoints();
         
         // while loop er hele spillet fra start til slut
         while (game) {
             
-            //Ny variable går igennem array og bruges til at holde styr på tur og point
+            //Ny variable CurrentPlayer går igennem array og bruges til at holde styr på tur og pengebeholdning
             for (Player CurrentPlayer : new Player[]{player1, player2}) {
                 
                 
@@ -45,7 +40,7 @@ class spil {
 
 
 
-             //her lægges spillerens nuværende point sammen med de point han får i den specifikke runde spilleren er nået til.
+             //her lægges spillerens nuværende pengebeholdning sammen med de dollars han får i det specifikke felt spilleren lander på.
             int[] rolls = Terninger.roll();
             int sum = rolls[0] + rolls[1];
             int change = 0;
@@ -95,31 +90,21 @@ class spil {
                 System.out.println("You rolled a 12 and landed on [Goldmine] which grants you 650$ Dollars");
                 change = 650;
             }
+            // her kalder vi vores metode til at opdatere pengebeholdningen for spilleren
             CurrentPlayer.updatePoints(change);
-            System.out.println(CurrentPlayer.name +" currently has " + CurrentPlayer.points + "$ Dollars");
-            int remainingPoints = targetpoints - CurrentPlayer.points;
-            System.out.println(CurrentPlayer.name + " needs "  +remainingPoints + "$ Dollars to win the game");
 
-
-            
-
-
-                //Her er vores logik for at hvis en af spillerens point når over 40, og de har slået to ens, vinder spilleren. 
-            if (CurrentPlayer.points >= targetpoints ) {
-                System.out.println(CurrentPlayer.name + " wins with " + CurrentPlayer.points + " points!");
-                if (CurrentPlayer == player1) {
-                    player1Wins++;
-                    
+                //Her er vores logik for at hvis en af spillerne når de 3000$. 
+                if (CurrentPlayer.points >= targetpoints ) {
+                    System.out.println(CurrentPlayer.name +" currently has " + CurrentPlayer.points + "$ Dollars");
+                    System.out.println(CurrentPlayer.name + " wins with " + CurrentPlayer.points + "$ Dollars!");
+                    game = false; 
+                    break; 
                 } else {
-                    player2Wins++;
+                System.out.println(CurrentPlayer.name +" currently has " + CurrentPlayer.points + "$ Dollars");
+                int remainingPoints = targetpoints - CurrentPlayer.points;
+                System.out.println(CurrentPlayer.name + " needs "  +remainingPoints + "$ Dollars to win the game");
                 }
-                game = false; 
-                break; 
-            } 
-            //Her afsluttes spillet for den normale win condition
-                if (!game) {
-                    break;
-                }
+               
             } 
             //Her asluttes spillet 
             if (!game) {
@@ -128,10 +113,8 @@ class spil {
         }
 
     }
-    System.out.println("Player 1 won " + player1Wins + " games");
-    System.out.println("Player 2 won " + player2Wins + " games");
 }
-}
+
 
 
 
@@ -154,12 +137,10 @@ class Player {
                 
             }
         }
-   
-        public void resetPoints(){
-            points = 1000;
-        }
     }
 
+   
+// vores klasse for terningerne
 class Terninger {
     private static Random random = new Random();
 
