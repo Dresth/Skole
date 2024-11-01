@@ -17,37 +17,28 @@ class spil {
         System.out.print("Enter your name ");
         player2.name = scanner.nextLine();
 
-        System.out.println("Hello " + player1 + " and " + player2 + ". Enjoy your game!");
+        System.out.println("Hello " + player1 + " and " + player2);
 
-
+        System.out.println("Each player starts with 1000$ Dollars");
+        System.out.println("To win the game, one player needs to optain 3000$ ");
+        System.out.println("Enjoy your game!");
         
-        boolean game = true;
         int targetpoints = 3000; 
-        
-        int towerPoints = 250;
-        int craterPoints = -100;
-        int coldDesertPoints = -20;
-        int palaceGatesPoints = 100;
-        int walledCityPoints = 180;
-        int Monestary = 0;
-        int blackCavePoints = -70;
-        int mountainPoints = 60;
-        int werewallPoints = -80;
-        int pitPoints = -50;
-        int goldPoints = 650;
+        int test = 10;    
+        int player1Wins = 0;
+        int player2Wins = 0;
+        for (int gameCount = 0;gameCount <test ; gameCount++){
+            boolean game = true;
 
-
+        player1.resetPoints();
+        player2.resetPoints();
         
-        
-    
-
         // while loop er hele spillet fra start til slut
         while (game) {
             
             //Ny variable går igennem array og bruges til at holde styr på tur og point
             for (Player CurrentPlayer : new Player[]{player1, player2}) {
-                boolean doubleroll = true;
-                while (doubleroll) {
+                
                 
             System.out.println(CurrentPlayer.name + "'s turn. Press enter to roll the dice");
             scanner.nextLine();
@@ -59,48 +50,48 @@ class spil {
             int sum = rolls[0] + rolls[1];
             int change = 0;
 
-            if (rolls[0] +  rolls[1] == 2) {
+            if (sum == 2) {
                 System.out.println("You rolled a 2 and landed on [Tower] which grants you 250$ Dollars");
                 change = 250;
                 
             } 
-            if (rolls[0] +  rolls[1] == 3) {
+            if (sum == 3) {
                 System.out.println("You rolled a 3 and landed on [Crater] which means you have to pay 100$ Dollars");
                 change = -100; 
 
-            }if (rolls[0] +  rolls[1] == 4) {
+            }if (sum == 4) {
                 System.out.println("You rolled a 4 and landed on [Palace gates] which grants you 100$ Dollars");
                 change = 100;
 
-            }if (rolls[0] +  rolls[1] == 5) {
+            }if (sum == 5) {
                 System.out.println("You rolled a 5 and landed on [Cold Desert] which means you have to pay 20$ Dollars");
                 change = -20;
 
-            }if (rolls[0] +  rolls[1] == 6) {
+            }if (sum == 6) {
                 System.out.println("You rolled a 6 and landed on [Walled city] which grants you 180$ Dollars");
                 change = 180;
 
-            }if (rolls[0] +  rolls[1] == 7) {
+            }if (sum == 7) {
                 System.out.println("You rolled a 7 and landed on [Monestary] which means you gain nothing");
                 change = 0;
 
-            }if (rolls[0] +  rolls[1] == 8) {
+            }if (sum == 8) {
                 System.out.println("You rolled a 8 and landed on [Black cave] which means you have to pay 70$ Dollars");
                 change = -70;
 
-            }if (rolls[0] +  rolls[1] == 9) {
+            }if (sum == 9) {
                 System.out.println("You rolled a 9 and landed on [Huts in the mountain] which grants you 60$ Dollars");
                 change = 60;
 
-            }if (rolls[0] +  rolls[1] == 10) {
+            }if (sum == 10) {
                 System.out.println("You rolled a 10 and landed on [The Werewall] which means you have to pay 80$ Dollars, but you get to roll again!");
                 change = -80;
 
-            }if (rolls[0] +  rolls[1] == 11) {
+            }if (sum == 11) {
                 System.out.println("You rolled a 11 and landed on [The pit] which means you have to pay 50$ Dollars");
                 change = -50;
 
-            }if (rolls[0] +  rolls[1] == 12) {
+            }if (sum == 12) {
                 System.out.println("You rolled a 12 and landed on [Goldmine] which grants you 650$ Dollars");
                 change = 650;
             }
@@ -116,8 +107,13 @@ class spil {
                 //Her er vores logik for at hvis en af spillerens point når over 40, og de har slået to ens, vinder spilleren. 
             if (CurrentPlayer.points >= targetpoints ) {
                 System.out.println(CurrentPlayer.name + " wins with " + CurrentPlayer.points + " points!");
+                if (CurrentPlayer == player1) {
+                    player1Wins++;
+                    
+                } else {
+                    player2Wins++;
+                }
                 game = false; 
-                doubleroll = false; 
                 break; 
             } 
             //Her afsluttes spillet for den normale win condition
@@ -132,6 +128,8 @@ class spil {
         }
 
     }
+    System.out.println("Player 1 won " + player1Wins + " games");
+    System.out.println("Player 2 won " + player2Wins + " games");
 }
 }
 
@@ -151,10 +149,16 @@ class Player {
                 points = 0; //for at sikre sig den mindste værdi er 0
                 
             }
+            if (points >3000) {
+                points = 3000;
+                
+            }
+        }
+   
+        public void resetPoints(){
+            points = 1000;
         }
     }
-
-   
 
 class Terninger {
     private static Random random = new Random();
